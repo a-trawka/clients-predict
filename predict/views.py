@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,11 +12,14 @@ def predict(request):
     df = pd.DataFrame(data)
     x = df[['days_since_start']]
     y = df['clients']
-    if not os.path.isfile('clients_plot.png'):
-        plt.plot(x, y)
-        plt.xlabel('Days since start')
-        plt.ylabel('Number of clients')
-        plt.savefig('clients_plot.png')
     prediction = LinearRegression()
     prediction.fit(x, y)
-    return HttpResponse(prediction.predict([3]))
+    predicted = prediction.predict(100)
+    p = os.path.dirname(__file__)
+    if not os.path.isfile(f'{p}/static/images/clients_plot.png'):
+        plt.plot(x, y, 'b')
+        plt.plot(100, float(predicted), 'ro')
+        plt.xlabel('Days since start')
+        plt.ylabel('Number of clients')
+        plt.savefig(f'{p}/static/predict/images/clients_plot.png')
+    return render(request, 'predict/predict.html', {'predict_clients': int(predicted)})
