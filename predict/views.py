@@ -17,7 +17,17 @@ def predict(request):
     prediction.fit(x, y)
     predicted = prediction.predict(100)
     p = os.path.dirname(__file__)
-    if not os.path.isfile(f'{p}/static/images/clients_plot.png'):
+    if not os.path.isfile(f'{p}/static/images/clients_point_plot.png'):
+        plt.plot(x, y, 'b.')
+        blue_line = mlines.Line2D([], [], color='blue', label='CSV DATA')
+        red_dot = mlines.Line2D([], [], color='red', marker='o', label='prediction', linewidth=0)
+        plt.legend(handles=[blue_line, red_dot])
+        plt.plot(100, float(predicted), 'ro')
+        plt.xlabel('Days since start')
+        plt.ylabel('Number of clients')
+        plt.savefig(f'{p}/static/predict/images/clients_point_plot.png')
+        plt.clf()
+    if not os.path.isfile(f'{p}/static/images/clients_line_plot.png'):
         plt.plot(x, y, 'b')
         blue_line = mlines.Line2D([], [], color='blue', label='CSV DATA')
         red_dot = mlines.Line2D([], [], color='red', marker='o', label='prediction', linewidth=0)
@@ -25,5 +35,5 @@ def predict(request):
         plt.plot(100, float(predicted), 'ro')
         plt.xlabel('Days since start')
         plt.ylabel('Number of clients')
-        plt.savefig(f'{p}/static/predict/images/clients_plot.png')
+        plt.savefig(f'{p}/static/predict/images/clients_line_plot.png')
     return render(request, 'predict/predict.html', {'predict_clients': int(predicted)})
