@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 from sklearn.linear_model import LinearRegression
 
 import os
@@ -18,6 +19,9 @@ def predict(request):
     p = os.path.dirname(__file__)
     if not os.path.isfile(f'{p}/static/images/clients_plot.png'):
         plt.plot(x, y, 'b')
+        blue_line = mlines.Line2D([], [], color='blue', label='CSV DATA')
+        red_dot = mlines.Line2D([], [], color='red', marker='o', label='prediction', linewidth=0)
+        plt.legend(handles=[blue_line, red_dot])
         plt.plot(100, float(predicted), 'ro')
         plt.xlabel('Days since start')
         plt.ylabel('Number of clients')
