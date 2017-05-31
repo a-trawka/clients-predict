@@ -1,12 +1,14 @@
 import datetime
 import random
 
-init_data = datetime.date(2017, 1, 1)
+init_date = datetime.date(2017, 1, 1)
+clients = 31
 with open('clients_data.csv', 'w') as cdata:
-    cdata.write('date,clients\n')
-    for day in range(130):
-        date = init_data + datetime.timedelta(days=day)
-        cdata.write(str(date))   
+    cdata.write('days_since_start,clients\n')
+    for day in range(100):
+        # date = init_date + datetime.timedelta(days=day)
+        cdata.write(str(day))
         cdata.write(',')
-        cdata.write(str(random.randrange(32, 129)))
+        clients += random.randrange(-2, 4)
+        cdata.write(str(clients))
         cdata.write('\n')
