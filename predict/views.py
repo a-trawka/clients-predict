@@ -36,4 +36,5 @@ def predict(request):
         plt.xlabel('Days since start')
         plt.ylabel('Number of clients')
         plt.savefig(f'{p}/static/predict/images/clients_line_plot.png')
+        plt.clf()
     return render(request, 'predict/predict.html', {'predict_clients': int(predicted)})

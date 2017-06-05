@@ -1,7 +1,6 @@
 import datetime
 import random
 
-init_date = datetime.date(2017, 1, 1)
 clients = 31
 with open('clients_data.csv', 'w') as cdata:
     cdata.write('days_since_start,clients\n')
